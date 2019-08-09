@@ -15,7 +15,7 @@ public class DataSet{
 	
 	/****** methods to create test data *******/
 	
-	private static void initializeData(){
+	static void initializeData(){
 		samples = createSamples(50);
 		
 		sampleTubes = new ArrayList<SampleTube>();
@@ -33,7 +33,7 @@ public class DataSet{
 		}*/
 	}
 	
-	private static ArrayList<Sample> createSamples(Integer number){
+	static ArrayList<Sample> createSamples(Integer number){
 		ArrayList<Sample> output = new ArrayList<Sample>(); 
 		
 		for(Integer i = 0; i < number; i++){
