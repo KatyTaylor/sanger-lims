@@ -16,6 +16,10 @@ public class Tube {
 		setState();
 	}
 	
+	public static void resetLatestTubeNumber() {
+		latestTubeNumber = 0;
+	}
+	
 	private void setBarcode(){
 		String result = "";
 		Tube.latestTubeNumber++;

@@ -16,6 +16,8 @@ public class DataSet{
 	/****** methods to create test data *******/
 	
 	static void initializeData(){
+		Tube.resetLatestTubeNumber();
+		
 		samples = createSamples(50);
 		
 		sampleTubes = new ArrayList<SampleTube>();
@@ -65,6 +67,19 @@ public class DataSet{
 		return result;
 	}
 	
+	public static Sample findSampleByUniqueId(String uniqueId){
+		Sample result = null;
+		
+		for(Sample s : samples){
+			if(s.getUniqueId().equals(uniqueId)){
+				result = s;
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
 	/********* methods to manipulate the data **************/
 	
 	public static Response createSample(String name, String customerName){
@@ -90,15 +105,18 @@ public class DataSet{
 		return new Response(true, "Successfully created library tube with barcode " + newLibraryTube.barcode + ".");
 	}
 	
-	public static void appendTagToSample(String sampleUniqueId, String tagSequence){
+	public static Response appendTagToSample(String sampleUniqueId, String tagSequence){
 		Tag newTag = new Tag(tagSequence);
-		for(Sample s : samples){
-			if(s.getUniqueId().equals(sampleUniqueId)){
-				Response r = s.setTag(newTag);
-				System.out.println(r.getMessage());
-				break;
-			}
+		
+		Sample s = findSampleByUniqueId(sampleUniqueId);
+		
+		if(s == null) {
+			return new Response(false, "Sample was not found.");
 		}
+		
+		Response r = s.setTag(newTag);
+		return r;
+		
 	}
 
 	public static Response moveSample(String sampleUniqueId, String sourceTubeBarcode, String destinationTubeBarcode){
