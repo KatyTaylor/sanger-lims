@@ -120,31 +120,12 @@ public class DataSet{
 	}
 
 	public static Response moveSample(String sampleUniqueId, String sourceTubeBarcode, String destinationTubeBarcode){
-		Sample sampleToMove = null;
-		Tube sourceTube = null;
-		Tube destinationTube = null;
-		
-		for(Sample s : samples){
-			if(s.getUniqueId().equals(sampleUniqueId)){
-				sampleToMove = s;
-				break;
-			}
-		}
-		sourceTube = findTubeByBarcode(sourceTubeBarcode);
-		destinationTube = findTubeByBarcode(destinationTubeBarcode);
-		
-		sourceTube.printWithSamples();
-		main.printLineDivider();
-		destinationTube.printWithSamples();
-		main.printLineDivider();
+		Sample sampleToMove = findSampleByUniqueId(sampleUniqueId); 
+		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
+		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
 		
 		if(sampleToMove != null && sourceTube != null && destinationTube != null){
 			Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
-			
-			sourceTube.printWithSamples();
-			main.printLineDivider();
-			destinationTube.printWithSamples();
-			main.printLineDivider();
 			
 			return r;
 		}

@@ -38,12 +38,9 @@ class DataSetTest {
 	@Test
 	void testFindTubeByBarcode() {
 		resetTestContext();
-		
-		for(Tube t : DataSet.sampleTubes) t.print();
-		main.printLineDivider();
-		for(Tube t : DataSet.libraryTubes) t.print();
+
 		Tube result = DataSet.findTubeByBarcode("NT-00004");
-		System.out.println(result);
+		
 		assert(result != null);
 		assertEquals("NT-00004", result.barcode);
 	}
@@ -151,6 +148,7 @@ class DataSetTest {
 		Response r = DataSet.moveSample("customer-0-sampleName-0", "NT-00001", "NT-00011");
 		
 		assert(r.getSuccess());
+		
 		Tube t = DataSet.findTubeByBarcode("NT-00001");
 		assertEquals(0, t.samples.size());
 		
@@ -159,9 +157,34 @@ class DataSetTest {
 	}
 	
 	@Test
-	void testMoveAllSamplesBetweenTubes() {
+	void testMoveSample_nonExistentSample() {
 		resetTestContext();
 		
+		DataSet.createLibraryTube();
+		
+		Response r = DataSet.moveSample("I'm not a sample", "NT-00001", "NT-00011");
+		
+		assert(!r.getSuccess());
+		
+		Tube t = DataSet.findTubeByBarcode("NT-00001");
+		assertEquals("customer-0-sampleName-0", t.samples.get(0).getUniqueId());
+		
+		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
+		assertEquals(0, t2.samples.size());
+	}
+	
+	@Test
+	void testMoveAllSamplesBetweenTubes_nonExistentSourceTube() {
+		resetTestContext();
+
+		DataSet.createLibraryTube();
+		
+		Response r = DataSet.moveSample("customer-0-sampleName-0", "No source tube has this barcode", "NT-00011");
+		
+		assert(!r.getSuccess());
+		
+		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
+		assertEquals(0, t2.samples.size());
 	}
 	
 }
