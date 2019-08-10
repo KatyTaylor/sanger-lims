@@ -119,19 +119,39 @@ public class DataSet{
 		
 	}
 
-	public static Response moveSample(String sampleUniqueId, String sourceTubeBarcode, String destinationTubeBarcode){
-		Sample sampleToMove = findSampleByUniqueId(sampleUniqueId); 
+//	public static Response moveSample(String sampleUniqueId, String sourceTubeBarcode, String destinationTubeBarcode){
+//		Sample sampleToMove = findSampleByUniqueId(sampleUniqueId); 
+//		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
+//		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
+//		
+//		if(sampleToMove != null && sourceTube != null && destinationTube != null){
+//			Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
+//			
+//			return r;
+//		}
+//		else{
+//			return new Response(false, "Could not find the sample or one of the tubes");
+//		}
+//	}
+	
+	public static Response moveSample(String sourceTubeBarcode, String destinationTubeBarcode){ 
 		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
 		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
 		
-		if(sampleToMove != null && sourceTube != null && destinationTube != null){
-			Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
-			
-			return r;
+		if(sourceTube == null) {
+			return new Response(false, "Could not find the source tube.");
 		}
-		else{
-			return new Response(false, "Could not find the sample or one of the tubes");
+		if(destinationTube == null) {
+			return new Response(false, "Could not find the destination tube.");
 		}
+		if (sourceTube.samples == null || sourceTube.samples.isEmpty() || sourceTube.samples.get(0) == null) {
+			return new Response(false, "Could not find a sample in the source tube.");
+		};
+		
+		Sample sampleToMove = sourceTube.samples.get(0);
+		
+		Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
+		return r;
 	}
 	
 	public static Response moveSamples(String[] sourceTubeBarcodes, String destinationTubeBarcode){
@@ -185,18 +205,12 @@ public class DataSet{
 		}
 		
 		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(tubes, destinationTube);
-		System.out.println("Protocol started.");
-		System.out.println("State: " + protocol.destinationTube.state);
 		
 		while(destinationTube.state != "Passed"){
 			
-			System.out.println("Ready to move next sample? Please respond with 'Y' when ready.");
+			System.out.println("Ready to move next sample? Please press any key to continue.");
 			String userInput = main.scanner.nextLine();
 			
-			if(!userInput.equals("Y")) {
-				System.out.println("Didn't understand the repsonse. Exiting protocol.");
-				return new Response(false, "Didn't understand user input.");
-			}
 			Response r = protocol.moveNextSample();
 			destinationTube = protocol.destinationTube;
 			if(!r.getSuccess()) {

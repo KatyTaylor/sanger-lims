@@ -30,7 +30,7 @@ public class main {
 		System.out.println("- create_sample_tube");
 		System.out.println("- create_library_tube");
 		System.out.println("- search_by_barcode (barcode)");		
-		System.out.println("- move_sample (sample unique id, source tube barcode, destination tube barcode)");
+		System.out.println("- move_sample (source tube barcode, destination tube barcode)");
 		System.out.println("- move_samples (source tube barcode 1, source tube barcode 2, ..., destination tube barcode)");
 		System.out.println("- tag_sample (sample unique id, tag sequence)");
 		System.out.println("- exit");
@@ -157,10 +157,9 @@ public class main {
 	}
 	
 	private static void moveSample(String[] parameters){
-		String sampleUniqueId = parameters[0];
-		String sourceTubeBarcode = parameters[1];
-		String destinationTubeBarcode = parameters[2];
-		Response r = DataSet.moveSample(sampleUniqueId, sourceTubeBarcode, destinationTubeBarcode);
+		String sourceTubeBarcode = parameters[0];
+		String destinationTubeBarcode = parameters[1];
+		Response r = DataSet.moveSample(sourceTubeBarcode, destinationTubeBarcode);
 		System.out.println(r.getMessage());
 	}
 	
@@ -178,9 +177,8 @@ public class main {
 			}
 		}		
 
-		
-		DataSet.moveSamplesStepwise(sourceTubeBarcodes, destinationTubeBarcode);
-		//System.out.println("Moved all samples from " + sourceTubeBarcode + " to " + destinationTubeBarcode + ".");
+		Response r = DataSet.moveSamplesStepwise(sourceTubeBarcodes, destinationTubeBarcode);
+		System.out.println(r.getMessage());
 	}
 	
 	private static void tagSample(String[] parameters){

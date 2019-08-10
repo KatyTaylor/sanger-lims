@@ -5,7 +5,6 @@ public class SamplesProgressionProtocol {
 
 	public ArrayList<Tube> sourceTubesToMove;
 	public ArrayList<Tube> sourceTubesMoved;
-	public Integer tubesMoved;
 	public Tube destinationTube;
 	public String state;
 	
@@ -13,9 +12,9 @@ public class SamplesProgressionProtocol {
 		this.sourceTubesToMove = sourceTubes;
 		this.sourceTubesMoved = new ArrayList<Tube>();
 		this.destinationTube = destinationTube;
-		this.tubesMoved = 0;
 		this.destinationTube.state = "Pending";
 		
+		System.out.println("Protocol started.");
 		System.out.println("State: " + this.destinationTube.state);
 	}
 	
@@ -23,6 +22,10 @@ public class SamplesProgressionProtocol {
 		
 		if(sourceTubesToMove.size() > 0){
 			Tube sourceTube = sourceTubesToMove.get(0);
+			if(sourceTube.samples == null || sourceTube.samples.isEmpty() || sourceTube.samples.get(0) == null ) {
+				return new Response(false, "The source tube does not contain a sample.");
+			}
+			
 			Sample sampleToMove = sourceTube.samples.get(0);
 			Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
 			if(r.getSuccess()) {
@@ -34,7 +37,7 @@ public class SamplesProgressionProtocol {
 				}else{
 					this.destinationTube.state = "Passed";
 				}
-				System.out.println(this.destinationTube.state);
+				System.out.println("State: " + this.destinationTube.state);
 			}
 			return r;
 		}

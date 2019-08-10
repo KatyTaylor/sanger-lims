@@ -145,7 +145,7 @@ class DataSetTest {
 		
 		DataSet.createLibraryTube();
 		
-		Response r = DataSet.moveSample("customer-0-sampleName-0", "NT-00001", "NT-00011");
+		Response r = DataSet.moveSample("NT-00001", "NT-00011");
 		
 		assert(r.getSuccess());
 		
@@ -162,15 +162,11 @@ class DataSetTest {
 		
 		DataSet.createLibraryTube();
 		
-		Response r = DataSet.moveSample("I'm not a sample", "NT-00001", "NT-00011");
+		DataSet.moveSample("NT-00001", "NT-00011");
+		Response r = DataSet.moveSample("NT-00001", "NT-00011");
 		
+		//NT-00001 should have no sample left so the second move should fail.
 		assert(!r.getSuccess());
-		
-		Tube t = DataSet.findTubeByBarcode("NT-00001");
-		assertEquals("customer-0-sampleName-0", t.samples.get(0).getUniqueId());
-		
-		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
-		assertEquals(0, t2.samples.size());
 	}
 	
 	@Test
@@ -179,7 +175,7 @@ class DataSetTest {
 
 		DataSet.createLibraryTube();
 		
-		Response r = DataSet.moveSample("customer-0-sampleName-0", "No source tube has this barcode", "NT-00011");
+		Response r = DataSet.moveSample("No source tube has this barcode", "NT-00011");
 		
 		assert(!r.getSuccess());
 		
