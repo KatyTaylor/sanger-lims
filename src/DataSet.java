@@ -134,16 +134,88 @@ public class DataSet{
 		}
 	}
 	
-	public static void moveAllSamplesBetweenTubes(String sourceTubeBarcode, String destinationTubeBarcode){
-		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
+	public static Response moveSamples(String[] sourceTubeBarcodes, String destinationTubeBarcode){
+		ArrayList<Tube> tubes = new ArrayList<Tube>();
+		for(String s : sourceTubeBarcodes) {
+			Tube t = findTubeByBarcode(s);
+			if(t != null) {
+				tubes.add(t);
+			}
+		}
+		
+		if(tubes.size() != sourceTubeBarcodes.length) {
+			return new Response(false, "Could not find all the source tubes.");
+		}
+		
 		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
 		
-		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(sourceTube, destinationTube);
+		if(destinationTube == null) {
+			return new Response(false, "Could not find the destination tube.");
+		}
+		
+		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(tubes, destinationTube);
 		
 		while(destinationTube.state != "Passed"){
-			protocol.moveNextSample();
+			Response r = protocol.moveNextSample();
 			destinationTube = protocol.destinationTube;
+			if(!r.getSuccess()) {
+				return r;
+			}
 		}
+		return new Response(true, "Successfully reached the end of the protocol.");
+	}
+	
+	public static Response moveSamplesStepwise(String[] sourceTubeBarcodes, String destinationTubeBarcode){
+		ArrayList<Tube> tubes = new ArrayList<Tube>();
+		for(String s : sourceTubeBarcodes) {
+			Tube t = findTubeByBarcode(s);
+			if(t != null) {
+				tubes.add(t);
+			}
+		}
+		
+		if(tubes.size() != sourceTubeBarcodes.length) {
+			return new Response(false, "Could not find all the source tubes.");
+		}
+		
+		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
+		
+		if(destinationTube == null) {
+			return new Response(false, "Could not find the destination tube.");
+		}
+		
+		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(tubes, destinationTube);
+		System.out.println("Protocol started.");
+		System.out.println("State: " + protocol.destinationTube.state);
+		
+		while(destinationTube.state != "Passed"){
+			
+			System.out.println("Ready to move next sample? Please respond with 'Y' when ready.");
+			String userInput = main.scanner.nextLine();
+			
+			if(!userInput.equals("Y")) {
+				System.out.println("Didn't understand the repsonse. Exiting protocol.");
+				return new Response(false, "Didn't understand user input.");
+			}
+			Response r = protocol.moveNextSample();
+			destinationTube = protocol.destinationTube;
+			if(!r.getSuccess()) {
+				return r;
+			}
+		}
+		return new Response(true, "Successfully reached the end of the protocol.");
+	}
+	
+	public static void moveAllSamplesBetweenTubes(String sourceTubeBarcode, String destinationTubeBarcode){
+//		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
+//		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
+//		
+//		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(sourceTube, destinationTube);
+//		
+//		while(destinationTube.state != "Passed"){
+//			protocol.moveNextSample();
+//			destinationTube = protocol.destinationTube;
+//		}
 	}
 	
 }

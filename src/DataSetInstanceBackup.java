@@ -120,17 +120,17 @@ public class DataSetInstanceBackup{
 		return this;
 	}
 	
-	public DataSetInstanceBackup moveAllSamplesBetweenTubes(String sourceTubeBarcode, String destinationTubeBarcode){
-		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
-		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
-		
-		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(sourceTube, destinationTube);
-		
-		while(destinationTube.state != "Passed"){
-			protocol.moveNextSample();
-			destinationTube = protocol.destinationTube;
-		}
-				
-		return this;
-	}
+//	public DataSetInstanceBackup moveAllSamplesBetweenTubes(String sourceTubeBarcode, String destinationTubeBarcode){
+//		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
+//		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
+//		
+//		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(sourceTube, destinationTube);
+//		
+//		while(destinationTube.state != "Passed"){
+//			protocol.moveNextSample();
+//			destinationTube = protocol.destinationTube;
+//		}
+//				
+//		return this;
+//	}
 }

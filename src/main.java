@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class main {
 
-	private static Scanner scanner = new Scanner(System.in);
+	public static Scanner scanner = new Scanner(System.in);
 	private static Boolean exit = false;
 	
 	public static void main(String args[]) {
@@ -31,7 +31,7 @@ public class main {
 		System.out.println("- create_library_tube");
 		System.out.println("- search_by_barcode (barcode)");		
 		System.out.println("- move_sample (sample unique id, source tube barcode, destination tube barcode)");
-		System.out.println("- move_all_samples (source tube barcode, destination tube barcode)");
+		System.out.println("- move_samples (source tube barcode 1, source tube barcode 2, ..., destination tube barcode)");
 		System.out.println("- tag_sample (sample unique id, tag sequence)");
 		System.out.println("- exit");
 		printLineDivider();
@@ -86,8 +86,8 @@ public class main {
 			case "move_sample":
 				moveSample(parameters);
 				break;
-			case "move_all_samples":
-				moveAllSamples(parameters);
+			case "move_samples":
+				moveSamples(parameters);
 				break;
 			case "tag_sample":
 				tagSample(parameters);
@@ -164,11 +164,23 @@ public class main {
 		System.out.println(r.getMessage());
 	}
 	
-	private static void moveAllSamples(String[] parameters){
-		String sourceTubeBarcode = parameters[0];
-		String destinationTubeBarcode = parameters[1];
-		DataSet.moveAllSamplesBetweenTubes(sourceTubeBarcode, destinationTubeBarcode);
-		System.out.println("Moved all samples from " + sourceTubeBarcode + " to " + destinationTubeBarcode + ".");
+	private static void moveSamples(String[] parameters){
+		
+		String[] sourceTubeBarcodes = new String[parameters.length-1];
+		String destinationTubeBarcode = parameters[parameters.length-1];
+		
+		for(Integer i = 0; i < parameters.length; i++) {
+			if(i == parameters.length - 1) {
+				destinationTubeBarcode = parameters[i];
+			}
+			else {
+				sourceTubeBarcodes[i] = parameters[i];
+			}
+		}		
+
+		
+		DataSet.moveSamplesStepwise(sourceTubeBarcodes, destinationTubeBarcode);
+		//System.out.println("Moved all samples from " + sourceTubeBarcode + " to " + destinationTubeBarcode + ".");
 	}
 	
 	private static void tagSample(String[] parameters){
