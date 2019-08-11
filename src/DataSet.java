@@ -219,7 +219,7 @@ public class DataSet{
 		
 		while(destinationTube.state != "Passed"){
 			Response r = protocol.moveNextSample();
-			destinationTube = protocol.destinationTube;
+			destinationTube = protocol.getDestinationTube();
 			if(!r.getSuccess()) {
 				return r;
 			}
@@ -255,7 +255,7 @@ public class DataSet{
 			String userInput = main.scanner.nextLine();
 			
 			Response r = protocol.moveNextSample();
-			destinationTube = protocol.destinationTube;
+			destinationTube = protocol.getDestinationTube();
 			if(!r.getSuccess()) {
 				return r;
 			}

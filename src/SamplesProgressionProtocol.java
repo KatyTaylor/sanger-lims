@@ -3,10 +3,21 @@ import java.util.ArrayList;
 
 public class SamplesProgressionProtocol {
 
-	public ArrayList<Tube> sourceTubesToMove;
-	public ArrayList<Tube> sourceTubesMoved;
-	public Tube destinationTube;
-	public String state;
+	private ArrayList<Tube> sourceTubesToMove;
+	public ArrayList<Tube> getSourceTubesToMove(){
+		return sourceTubesToMove;
+	}
+	
+	private ArrayList<Tube> sourceTubesMoved;
+	public ArrayList<Tube> getSourceTubesMoved(){
+		return sourceTubesMoved;
+	}
+	
+	private Tube destinationTube;
+	public Tube getDestinationTube() {
+		return destinationTube;
+	}
+	
 	
 	public SamplesProgressionProtocol(ArrayList<Tube> sourceTubes, Tube destinationTube){
 		this.sourceTubesToMove = sourceTubes;
@@ -18,9 +29,10 @@ public class SamplesProgressionProtocol {
 		System.out.println("State: " + this.destinationTube.state);
 	}
 	
+	
 	public Response moveNextSample(){
 		
-		if(sourceTubesToMove.size() > 0){
+		if(!sourceTubesToMove.isEmpty()){
 			Tube sourceTube = sourceTubesToMove.get(0);
 			if(sourceTube.isEmpty() || sourceTube.getSamples().get(0) == null ) {
 				return new Response(false, "The source tube does not contain a sample.");
@@ -32,7 +44,7 @@ public class SamplesProgressionProtocol {
 				sourceTubesToMove.remove(sourceTube);
 				sourceTubesMoved.add(sourceTube);
 				
-				if(sourceTubesToMove.size() > 0){
+				if(!sourceTubesToMove.isEmpty()){
 					this.destinationTube.state = "Started";
 				}else{
 					this.destinationTube.state = "Passed";
