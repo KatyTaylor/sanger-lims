@@ -65,7 +65,7 @@ public class Tube {
 	
 	public Response addSample(Sample sample){
 		samples.add(sample);
-		return new Response(true, "");
+		return new Response(true, "Successfully added sample " + sample.getUniqueId() + " to tube " + barcode + ".");
 	}
 	
 	public Response removeSample(Sample sample){
@@ -87,5 +87,18 @@ public class Tube {
 	public void print(){
 		System.out.println("Tube information");
 		System.out.println("Barcode: " + barcode);
+	}
+	
+	public Boolean containsSample(String sampleUniqueId) {
+		Boolean result = false;
+		
+		for(Sample s : samples) {
+			if(s.getUniqueId().equals(sampleUniqueId)) {
+				result = true;
+				break;
+			}
+		}
+		
+		return result;
 	}
 }

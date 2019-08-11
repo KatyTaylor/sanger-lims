@@ -80,6 +80,29 @@ public class DataSet{
 		return result;
 	}
 	
+	public static Tube findTubeBySampleUniqueId(String sampleUniqueId){
+		Tube result = null;
+		
+		for(SampleTube st : sampleTubes){
+			if(st.containsSample(sampleUniqueId)) {
+				result = st;
+				break;
+			}
+		}
+		if(result == null) {
+			for(LibraryTube lt : libraryTubes){
+				if(lt.containsSample(sampleUniqueId)) {
+					result = lt;
+					break;
+				}
+			}
+		}
+			
+		return result;
+	}
+	
+	
+	
 	/********* methods to manipulate the data **************/
 	
 	public static Response createSample(String name, String customerName){
@@ -91,6 +114,25 @@ public class DataSet{
 		Sample newSample = new Sample(name, customerName);
 		samples.add(newSample);
 		return new Response(true, "Successfully created sample with name " + name + " and customer name " + customerName + ".");
+	}
+	
+	public static Response addToTube(String sampleUniqueId, String destinationTubeBarcode){
+		Sample sample = findSampleByUniqueId(sampleUniqueId);
+		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
+		Tube tubeSampleIsAlreadyIn = findTubeBySampleUniqueId(sampleUniqueId);
+		
+		if(sample == null) {
+			return new Response(false, "Couldn't find the sample.");
+		}
+		if(destinationTube == null) {
+			return new Response(false, "Couldn't find the destination tube.");
+		}
+		if(tubeSampleIsAlreadyIn != null) {
+			return new Response(false, "Sample is already in tube " + tubeSampleIsAlreadyIn.barcode + ". Did you mean to use move_sample?");
+		}
+		
+		Response r = destinationTube.addSample(sample);
+		return r;
 	}
 	
 	public static Response createSampleTube(){

@@ -26,6 +26,7 @@ public class main {
 		System.out.println("Example: tag_sample (customer-49-sampleName-49, AAAGGTC)");
 		System.out.println("- show_samples");
 		System.out.println("- create_sample (sample name, customer name)");
+		System.out.println("- add_to_tube (sample name, destination tube barcode)");
 		System.out.println("- show_tubes");
 		System.out.println("- create_sample_tube");
 		System.out.println("- create_library_tube");
@@ -70,6 +71,9 @@ public class main {
 				break;
 			case "create_sample":
 				createNewSample(parameters);
+				break;
+			case "add_to_tube":
+				addToTube(parameters);
 				break;
 			case "show_tubes":
 				showAllTubes(parameters);
@@ -118,6 +122,13 @@ public class main {
 		String name = parameters[0];
 		String customerName = parameters[1];
 		Response r = DataSet.createSample(name, customerName);
+		System.out.println(r.getMessage());
+	}
+	
+	private static void addToTube(String[] parameters){
+		String name = parameters[0];
+		String destinationTubeBarcode = parameters[1];
+		Response r = DataSet.addToTube(name, destinationTubeBarcode);
 		System.out.println(r.getMessage());
 	}
 	
