@@ -110,7 +110,7 @@ class DataSetTest {
 		Sample s = DataSet.findSampleByUniqueId("customer-0-sampleName-0");
 		
 		assert(s != null);
-		assertEquals("CAT", s.getTag().sequence);
+		assertEquals("CAT", s.getTag().getSequence());
 	}
 	
 	@Test

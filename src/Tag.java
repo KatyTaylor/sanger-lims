@@ -3,9 +3,13 @@ import java.util.regex.*;
 
 public class Tag {
 
-	public String sequence; 	
-	
 	private static String sequenceRegex = "([ATGC])+";
+	
+	private String sequence;
+	public String getSequence() {
+		return sequence;
+	}
+	
 	
 	public Tag(String sequence){
 		this.sequence = sequence;

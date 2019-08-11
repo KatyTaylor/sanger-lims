@@ -16,12 +16,12 @@ public class Sample {
 		return tag;
 	}
 	public Response setTag(Tag tag){	
-		if(tag.sequence != null && Tag.isValidSequence(tag.sequence) ){
+		if(tag.getSequence() != null && Tag.isValidSequence(tag.getSequence()) ){
 			this.tag = tag;
-			return new Response(true, "Tag was set successfully");
+			return new Response(true, "Sample " + uniqueId + " was tagged successfully with " + tag.getSequence() + ".");
 		}
 		else{
-			return new Response(false, "Tag sequence is invalid");
+			return new Response(false, "Could not tag sample because sequence " + tag.getSequence() + " is invalid.");
 		}
 	}
 	
@@ -30,12 +30,14 @@ public class Sample {
 		return customerName;
 	}
 	
+	
 	public Sample(String name, String customerName){
 		this.name = name;
 		this.customerName = customerName;
 		this.tag = null;
 		this.uniqueId = makeUniqueId(name, customerName);
 	}
+	
 	
 	private static String makeUniqueId(String name, String customer){
 		return customer + "-" + name;
@@ -64,7 +66,7 @@ public class Sample {
 		System.out.println("Unique Id: " + uniqueId);
 		System.out.println("Customer: " + customerName);
 		
-		String tagSequence = tag != null ? tag.sequence : null;
+		String tagSequence = tag != null ? tag.getSequence() : null;
 		System.out.println("Tag: " + tagSequence);
 	}
 	

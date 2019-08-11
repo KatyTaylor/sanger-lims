@@ -249,13 +249,8 @@ public class main {
 		String tagSequence = parameters[1];
 		
 		printLineDivider();		
-		if(Tag.isValidSequence(tagSequence)){
-			DataSet.appendTagToSample(sampleUniqueId, tagSequence);
-			System.out.println("Tagged sample " + sampleUniqueId + " with tag " + tagSequence);
-
-		}else{
-			System.out.println("Tag sequence is invalid");
-		}
+		Response r = DataSet.appendTagToSample(sampleUniqueId, tagSequence);
+		System.out.println(r.getMessage());
 	}	
 	
 }
