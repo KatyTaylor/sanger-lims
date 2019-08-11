@@ -51,6 +51,7 @@ public class Sample {
 		Response r2 = destinationTube.addSample(this);
 
 		if(!r2.getSuccess()) {
+			sourceTube.addSample(this);
 			return r2;
 		}
 		else{
