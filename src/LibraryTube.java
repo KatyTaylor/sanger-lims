@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class LibraryTube extends Tube{
 
 	public LibraryTube(){
+		this.type = "library tube";
 		this.samples = new ArrayList<Sample>();
 	}
 	

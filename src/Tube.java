@@ -8,6 +8,7 @@ public class Tube {
 	public ArrayList<Sample> samples; //not sure what access we want
 	public String barcode;				//format NT-00001 ...
 	public String state;		//for transfer between tubes protocol; pending, started, passed
+	public String type;		//whether it's a library tube or a sample tube
 	
 	public Tube(){
 		//samples = new ArrayList<Sample>();
@@ -77,15 +78,18 @@ public class Tube {
 	}
 	
 	public void printWithSamples(){
-		System.out.println("Tube information");
-		System.out.println("Barcode: " + barcode);
+		print();
+		String samplesString = samples == null || samples.isEmpty() ? "Tube is empty." : String.valueOf(samples.size());
+		System.out.println("Samples: " + samplesString);
 		for(Sample s : samples){
+			main.printLineDivider();
 			s.print();
 		}
 	}
 	
 	public void print(){
 		System.out.println("Tube information");
+		System.out.println("Type: " + type);
 		System.out.println("Barcode: " + barcode);
 	}
 	

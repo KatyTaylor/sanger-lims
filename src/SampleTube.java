@@ -7,6 +7,7 @@ public class SampleTube extends Tube{
 	
 	public SampleTube(Sample sample){
 		//System.out.println("SampleTube constructor");
+		this.type = "sample tube";
 		this.sample = sample;
 		this.samples = new ArrayList<Sample>();
 		if(sample != null) this.samples.add(sample);
