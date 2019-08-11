@@ -144,9 +144,10 @@ class DataSetTest {
 		resetTestContext();
 		
 		DataSet.createLibraryTube();
+		DataSet.appendTagToSample("customer-0-sampleName-0", "CAT");
 		
 		Response r = DataSet.moveSample("NT-00001", "NT-00011");
-		System.out.println(r.getMessage());
+		
 		assert(r.getSuccess());
 		
 		Tube t = DataSet.findTubeByBarcode("NT-00001");
@@ -161,9 +162,11 @@ class DataSetTest {
 		resetTestContext();
 		
 		DataSet.createLibraryTube();
-		
+		DataSet.appendTagToSample("customer-0-sampleName-0", "CAT");
 		DataSet.moveSample("NT-00001", "NT-00011");
+		
 		Response r = DataSet.moveSample("NT-00001", "NT-00011");
+		System.out.println(r.getMessage());
 		
 		//NT-00001 should have no sample left so the second move should fail.
 		assert(!r.getSuccess());
@@ -174,8 +177,10 @@ class DataSetTest {
 		resetTestContext();
 
 		DataSet.createLibraryTube();
+		DataSet.appendTagToSample("customer-0-sampleName-0", "CAT");
 		
 		Response r = DataSet.moveSample("No source tube has this barcode", "NT-00011");
+		System.out.println(r.getMessage());
 		
 		assert(!r.getSuccess());
 		
@@ -189,8 +194,13 @@ class DataSetTest {
 		
 		DataSet.createLibraryTube();
 		String[] barcodesOfSourceTubes = {"NT-00001", "NT-00002", "NT-00003", "NT-00004"};
-				
+		DataSet.appendTagToSample("customer-0-sampleName-0", "AAA");
+		DataSet.appendTagToSample("customer-1-sampleName-1", "TTT");
+		DataSet.appendTagToSample("customer-2-sampleName-2", "GGG");
+		DataSet.appendTagToSample("customer-3-sampleName-3", "CCC");
+		
 		Response r = DataSet.moveSamples(barcodesOfSourceTubes, "NT-00011");
+		System.out.println(r.getMessage());
 		
 		assert(r.getSuccess());
 		
