@@ -16,7 +16,7 @@ public class SampleTube extends Tube{
 	public Response addSample(Sample sample){
 		if(samples.size() == 0) {
 			samples.add(sample);
-			return new Response(true, "Successfully added sample with unique id " + sample.getUniqueId() + "to tube with barcode " + barcode + ".");
+			return new Response(true, "Successfully added sample with unique id " + sample.getUniqueId() + "to tube with barcode " + getBarcode() + ".");
 		}
 		else {
 			return new Response(false, "Couldn't add a sample to the tube because it already contains a sample.");

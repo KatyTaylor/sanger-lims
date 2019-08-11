@@ -22,11 +22,11 @@ public class SamplesProgressionProtocol {
 		
 		if(sourceTubesToMove.size() > 0){
 			Tube sourceTube = sourceTubesToMove.get(0);
-			if(sourceTube.samples == null || sourceTube.samples.isEmpty() || sourceTube.samples.get(0) == null ) {
+			if(sourceTube.isEmpty() || sourceTube.getSamples().get(0) == null ) {
 				return new Response(false, "The source tube does not contain a sample.");
 			}
 			
-			Sample sampleToMove = sourceTube.samples.get(0);
+			Sample sampleToMove = sourceTube.getSamples().get(0);
 			Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
 			if(r.getSuccess()) {
 				sourceTubesToMove.remove(sourceTube);

@@ -3,25 +3,30 @@ import java.util.ArrayList;
 
 public class Tube {
 	
-	public static Integer latestTubeNumber = 0;
-	
-	public ArrayList<Sample> samples; //not sure what access we want
-	public String barcode;				//format NT-00001 ...
-	public String state;		//for transfer between tubes protocol; pending, started, passed
-	public String type;		//whether it's a library tube or a sample tube
-	
-	public Tube(){
-		//samples = new ArrayList<Sample>();
-		
-		setBarcode();	//not sure if this should be at Tube or sub-class level
-		setState();
+	private static Integer latestTubeNumber = 0;
+	public static Integer getLatestTubeNumber() {
+		return latestTubeNumber;
 	}
-	
 	public static void resetLatestTubeNumber() {
 		latestTubeNumber = 0;
 	}
 	
+	public String state;
+	
+	public ArrayList<Sample> samples;
+	public ArrayList<Sample> getSamples(){
+		return samples;
+	}
+	
+	private String barcode;
+	public String getBarcode() {
+		return barcode;
+	}
 	private void setBarcode(){
+		if(barcode != null) {
+			return;
+		}
+		
 		String result = "";
 		Tube.latestTubeNumber++;
 		
@@ -36,33 +41,19 @@ public class Tube {
 		}
 		
 		result = prefix + number;
-		//System.out.println(result);
-		this.barcode = result;
+		barcode = result;
 	}
 	
-	private void setState(){
-		if(samples == null || samples.isEmpty()){
-			state = "Pending";
-		}
+	public String type;
+	public String getType(){
+		return type;
 	}
 	
-	public ArrayList<Sample> getSamples(){
-		ArrayList<Sample> output;
-		
-		output = samples;
-		
-		return output;
-	}
 	
-	public void printSamples(){
-		for(Sample s : samples){
-			System.out.println("Name: " + s.getName());
-			System.out.println("Unique id: " + s.getUniqueId());
-			System.out.println("Tag: " + s.getTag());
-			System.out.println("Customer: " + s.getCustomerName());
-			System.out.println("-----------------------------");
-		}
-	}
+	public Tube(){
+		setBarcode();
+	}	
+	
 	
 	public Response addSample(Sample sample){
 		samples.add(sample);
@@ -70,27 +61,8 @@ public class Tube {
 	}
 	
 	public Response removeSample(Sample sample){
-		System.out.println("remove sample in tube");
-		System.out.println(samples);
 		samples.remove(sample);
-		System.out.println(samples);
-		return new Response(true, "");
-	}
-	
-	public void printWithSamples(){
-		print();
-		String samplesString = samples == null || samples.isEmpty() ? "Tube is empty." : String.valueOf(samples.size());
-		System.out.println("Samples: " + samplesString);
-		for(Sample s : samples){
-			main.printLineDivider();
-			s.print();
-		}
-	}
-	
-	public void print(){
-		System.out.println("Tube information");
-		System.out.println("Type: " + type);
-		System.out.println("Barcode: " + barcode);
+		return new Response(true, "Successfully removed sample " + sample.getUniqueId() + " from tube " + barcode + ".");
 	}
 	
 	public Boolean containsSample(String sampleUniqueId) {
@@ -105,4 +77,32 @@ public class Tube {
 		
 		return result;
 	}
+	
+	public Boolean isEmpty() {
+		if(samples == null || samples.isEmpty()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**************** functions to print out information ****************/
+	
+	public void print(){
+		System.out.println("Tube information");
+		System.out.println("Type: " + type);
+		System.out.println("Barcode: " + barcode);
+	}
+	
+	public void printWithSamples(){
+		print();
+		String samplesString = samples == null || samples.isEmpty() ? "Tube is empty." : String.valueOf(samples.size());
+		System.out.println("Samples: " + samplesString);
+		for(Sample s : samples){
+			main.printLineDivider();
+			s.print();
+		}
+	}
+	
 }

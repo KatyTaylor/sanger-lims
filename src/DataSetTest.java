@@ -42,7 +42,7 @@ class DataSetTest {
 		Tube result = DataSet.findTubeByBarcode("NT-00004");
 		
 		assert(result != null);
-		assertEquals("NT-00004", result.barcode);
+		assertEquals("NT-00004", result.getBarcode());
 	}
 	
 	@Test
@@ -146,14 +146,14 @@ class DataSetTest {
 		DataSet.createLibraryTube();
 		
 		Response r = DataSet.moveSample("NT-00001", "NT-00011");
-		
+		System.out.println(r.getMessage());
 		assert(r.getSuccess());
 		
 		Tube t = DataSet.findTubeByBarcode("NT-00001");
-		assertEquals(0, t.samples.size());
+		assertEquals(0, t.getSamples().size());
 		
 		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
-		assertEquals("customer-0-sampleName-0", t2.samples.get(0).getUniqueId());
+		assertEquals("customer-0-sampleName-0", t2.getSamples().get(0).getUniqueId());
 	}
 	
 	@Test
@@ -180,7 +180,7 @@ class DataSetTest {
 		assert(!r.getSuccess());
 		
 		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
-		assertEquals(0, t2.samples.size());
+		assertEquals(0, t2.getSamples().size());
 	}
 	
 	@Test
@@ -195,10 +195,10 @@ class DataSetTest {
 		assert(r.getSuccess());
 		
 		Tube t = DataSet.findTubeByBarcode("NT-00001");
-		assertEquals(0, t.samples.size());
+		assertEquals(0, t.getSamples().size());
 		
 		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
-		assertEquals(4, t2.samples.size());
+		assertEquals(4, t2.getSamples().size());
 	}
 	
 }

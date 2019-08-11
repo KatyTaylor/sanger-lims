@@ -52,13 +52,13 @@ public class DataSet{
 		Tube result = null;
 		
 		for(SampleTube st : sampleTubes){
-			if(st.barcode.equals(barcode)){
+			if(st.getBarcode().equals(barcode)){
 				result = st;
 				break;
 			}
 		}
 		for(LibraryTube lt : libraryTubes){
-			if(lt.barcode.equals(barcode)){
+			if(lt.getBarcode().equals(barcode)){
 				result = lt;
 				break;
 			}
@@ -128,7 +128,7 @@ public class DataSet{
 			return new Response(false, "Couldn't find the destination tube.");
 		}
 		if(tubeSampleIsAlreadyIn != null) {
-			return new Response(false, "Sample is already in tube " + tubeSampleIsAlreadyIn.barcode + ". Did you mean to use move_sample?");
+			return new Response(false, "Sample is already in tube " + tubeSampleIsAlreadyIn.getBarcode() + ". Did you mean to use move_sample?");
 		}
 		
 		Response r = destinationTube.addSample(sample);
@@ -138,13 +138,13 @@ public class DataSet{
 	public static Response createSampleTube(){
 		SampleTube newSampleTube = new SampleTube(null);
 		sampleTubes.add(newSampleTube);
-		return new Response(true, "Successfully created sample tube with barcode " + newSampleTube.barcode + ".");
+		return new Response(true, "Successfully created sample tube with barcode " + newSampleTube.getBarcode() + ".");
 	}
 	
 	public static Response createLibraryTube(){
 		LibraryTube newLibraryTube = new LibraryTube();
 		libraryTubes.add(newLibraryTube);
-		return new Response(true, "Successfully created library tube with barcode " + newLibraryTube.barcode + ".");
+		return new Response(true, "Successfully created library tube with barcode " + newLibraryTube.getBarcode() + ".");
 	}
 	
 	public static Response appendTagToSample(String sampleUniqueId, String tagSequence){
@@ -186,11 +186,11 @@ public class DataSet{
 		if(destinationTube == null) {
 			return new Response(false, "Could not find the destination tube.");
 		}
-		if (sourceTube.samples == null || sourceTube.samples.isEmpty() || sourceTube.samples.get(0) == null) {
+		if (sourceTube.isEmpty() || sourceTube.getSamples().get(0) == null) {
 			return new Response(false, "Could not find a sample in the source tube.");
 		};
 		
-		Sample sampleToMove = sourceTube.samples.get(0);
+		Sample sampleToMove = sourceTube.getSamples().get(0);
 		
 		Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
 		return r;
@@ -251,6 +251,7 @@ public class DataSet{
 		while(destinationTube.state != "Passed"){
 			
 			System.out.println("Ready to move next sample? Please press any key to continue.");
+			//don't need to assign to variable
 			String userInput = main.scanner.nextLine();
 			
 			Response r = protocol.moveNextSample();

@@ -53,13 +53,13 @@ public class DataSetInstanceBackup{
 		Tube result = null;
 		
 		for(SampleTube st : sampleTubes){
-			if(st.barcode.equals(barcode)){
+			if(st.getBarcode().equals(barcode)){
 				result = st;
 				break;
 			}
 		}
 		for(LibraryTube lt : libraryTubes){
-			if(lt.barcode.equals(barcode)){
+			if(lt.getBarcode().equals(barcode)){
 				result = lt;
 				break;
 			}
@@ -92,11 +92,11 @@ public class DataSetInstanceBackup{
 		}
 		for(SampleTube st : sampleTubes){
 			if(sourceTube == null || destinationTube == null){
-				if(st.barcode.equals(sourceTubeBarcode)){
+				if(st.getBarcode().equals(sourceTubeBarcode)){
 					sourceTube = st;
 					continue;
 				}
-				if(st.barcode.equals(destinationTubeBarcode)){
+				if(st.getBarcode().equals(destinationTubeBarcode)){
 					destinationTube = st;
 					continue;
 				}
@@ -104,11 +104,11 @@ public class DataSetInstanceBackup{
 		}
 		for(LibraryTube lt : libraryTubes){
 			if(sourceTube == null || destinationTube == null){
-				if(lt.barcode.equals(sourceTubeBarcode)){
+				if(lt.getBarcode().equals(sourceTubeBarcode)){
 					sourceTube = lt;
 					continue;
 				}
-				if(lt.barcode.equals(destinationTubeBarcode)){
+				if(lt.getBarcode().equals(destinationTubeBarcode)){
 					destinationTube = lt;
 					continue;
 				}

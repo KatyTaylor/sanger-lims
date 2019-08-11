@@ -20,9 +20,7 @@ public class Tag {
 		Boolean result = false;
 		
 		Pattern pattern = Pattern.compile(Tag.sequenceRegex); 
-		
 		Matcher matcher = pattern.matcher(s); 
-		
         result = matcher.matches();
         
         return result;

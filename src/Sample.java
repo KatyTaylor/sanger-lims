@@ -57,7 +57,7 @@ public class Sample {
 			return r2;
 		}
 		else{
-			return new Response(true, "Successfully moved sample " + uniqueId + " from " + sourceTube.barcode + " to " + destinationTube.barcode + ".");
+			return new Response(true, "Successfully moved sample " + uniqueId + " from " + sourceTube.getBarcode() + " to " + destinationTube.getBarcode() + ".");
 		}
 	}
 	
