@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.ArrayList;
 
 public class main {
@@ -44,7 +46,14 @@ public class main {
 	}
 	
 	private static void respondToUserInput(String userInput){
-
+			
+		if(!validateUserInput(userInput)) {
+			System.out.println("Couldn't understand the format of the user input.");
+			System.out.println("To perform a command, type the command name and provide all its parameters, as shown."); 
+			System.out.println("Example: tag_sample (customer-49-sampleName-49, AAAGGTC)");
+			return;
+		};
+		
 		String command = userInput.trim();
 		String[] parameters = null;
 		
@@ -70,30 +79,37 @@ public class main {
 				showAllSamples(parameters);
 				break;
 			case "create_sample":
+				if(!checkParams(2, parameters)) break;
 				createNewSample(parameters);
 				break;
 			case "add_to_tube":
+				if(!checkParams(2, parameters)) break;
 				addToTube(parameters);
 				break;
 			case "show_tubes":
 				showAllTubes(parameters);
 				break;
 			case "create_sample_tube":
+				if(!checkParams(2, parameters)) break;
 				createNewSampleTube(parameters);
 				break;
 			case "create_library_tube":
 				createNewLibraryTube(parameters);
 				break;
 			case "search_by_barcode":
+				if(!checkParams(1, parameters)) break;
 				searchByBarcode(parameters);
 				break;
 			case "move_sample":
+				if(!checkParams(2, parameters)) break;
 				moveSample(parameters);
 				break;
 			case "move_samples":
+				if(!checkParams(2, parameters)) break;
 				moveSamples(parameters);
 				break;
 			case "tag_sample":
+				if(!checkParams(2, parameters)) break;
 				tagSample(parameters);
 				break;
 			case "exit":
@@ -106,9 +122,45 @@ public class main {
 		printLineDivider();
 	}
 	
+	/********* helper methods **************/
+	
+	public static Boolean checkParams(Integer expectedNumberParams, String[] params){
+		Boolean result = true;
+		if(params == null || params.length < expectedNumberParams) {
+			result = false;
+			System.out.println("Not enough parameters were provided. Expected number: " + expectedNumberParams + ".");
+		}
+		else {
+			for(String param : params) {
+				if(param == null || param == "") {
+					result = false;
+					System.out.println("One of the parameters provided was blank.");
+					break;
+				}
+			}
+		}
+		return result;
+	}
+	
 	public static void printLineDivider(){
 		System.out.println("--------------------------");
+	}	
+	
+	public static Boolean validateUserInput(String userInput) {
+		Boolean result = false;
+		
+		String expectedUserInputPattern = "\\s*\\w+\\s*(\\(\\s*(\\s*(\\s*\\w+\\s*,)*\\s*\\w+\\s*)?\\s*\\))?\\s*";
+		
+		Pattern pattern = Pattern.compile(expectedUserInputPattern); 
+		
+		Matcher matcher = pattern.matcher(userInput); 
+		
+        result = matcher.matches();
+		
+		return result;
 	}
+	
+	/********* methods to respond to user input **************/
 	
 	private static void showAllSamples(String[] parameters){
 		for(Sample s : DataSet.samples){
