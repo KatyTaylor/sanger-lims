@@ -170,21 +170,6 @@ public class DataSet{
 		return r;
 		
 	}
-
-//	public static Response moveSample(String sampleUniqueId, String sourceTubeBarcode, String destinationTubeBarcode){
-//		Sample sampleToMove = findSampleByUniqueId(sampleUniqueId); 
-//		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
-//		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
-//		
-//		if(sampleToMove != null && sourceTube != null && destinationTube != null){
-//			Response r = sampleToMove.moveTubes(sourceTube, destinationTube);
-//			
-//			return r;
-//		}
-//		else{
-//			return new Response(false, "Could not find the sample or one of the tubes");
-//		}
-//	}
 	
 	public static Response moveSample(String sourceTubeBarcode, String destinationTubeBarcode){ 
 		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
