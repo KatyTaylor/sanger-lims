@@ -52,6 +52,13 @@ public class Tube {
 	
 	public Tube(){
 		setBarcode();
+		this.samples = new ArrayList<Sample>();
+	}
+	
+	public Tube(Sample initialSample){
+		setBarcode();
+		this.samples = new ArrayList<Sample>();
+		if(initialSample != null) this.samples.add(initialSample);
 	}	
 	
 	

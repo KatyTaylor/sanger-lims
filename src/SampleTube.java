@@ -3,32 +3,26 @@ import java.util.ArrayList;
 
 public class SampleTube extends Tube{
 
-	public Sample sample;		//can have 0 or 1 samples
-	
 	public SampleTube(Sample sample){
-		//System.out.println("SampleTube constructor");
+		super(sample);
 		this.type = "sample tube";
-		this.sample = sample;
-		this.samples = new ArrayList<Sample>();
-		if(sample != null) this.samples.add(sample);
+	}
+	
+	public SampleTube(){
+		super();
+		this.type = "sample tube";
 	}
 	
 	public Response addSample(Sample sample){
-		if(samples.size() == 0) {
-			samples.add(sample);
-			return new Response(true, "Successfully added sample with unique id " + sample.getUniqueId() + "to tube with barcode " + getBarcode() + ".");
-		}
-		else {
+		if(samples.size() > 0) {
 			return new Response(false, "Couldn't add a sample to the tube because it already contains a sample.");
 		}
-	}
-	
-	public Response removeSample(Sample sample){
-		this.sample = null;
+		if(sample == null){
+			return new Response(false, "Couldn't add a sample to the tube because the sample provided was null.");
+		}
+		samples.add(sample);
+		return new Response(true, "Successfully added sample with unique id " + sample.getUniqueId() + "to tube with barcode " + getBarcode() + ".");
 		
-		samples.remove(sample);
-		
-		return new Response(true, "");
 	}
 	
 }
