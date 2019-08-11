@@ -263,16 +263,4 @@ public class DataSet{
 		return new Response(true, "Successfully reached the end of the protocol.");
 	}
 	
-	public static void moveAllSamplesBetweenTubes(String sourceTubeBarcode, String destinationTubeBarcode){
-//		Tube sourceTube = findTubeByBarcode(sourceTubeBarcode);
-//		Tube destinationTube = findTubeByBarcode(destinationTubeBarcode);
-//		
-//		SamplesProgressionProtocol protocol = new SamplesProgressionProtocol(sourceTube, destinationTube);
-//		
-//		while(destinationTube.state != "Passed"){
-//			protocol.moveNextSample();
-//			destinationTube = protocol.destinationTube;
-//		}
-	}
-	
 }
