@@ -5,9 +5,20 @@ public class DataSet{
 	
 	/******* mock of a database *********/
 	
-	public static ArrayList<Sample> samples;
-	public static ArrayList<SampleTube> sampleTubes;
-	public static ArrayList<LibraryTube> libraryTubes;
+	private static ArrayList<Sample> samples;
+	public static ArrayList<Sample> getSamples(){
+		return samples;
+	}
+	
+	private static ArrayList<SampleTube> sampleTubes;
+	public static ArrayList<SampleTube> getSampleTubes(){
+		return sampleTubes;
+	}
+	
+	private static ArrayList<LibraryTube> libraryTubes;
+	public static ArrayList<LibraryTube> getLibraryTubes(){
+		return libraryTubes;
+	}
 		
 	static{
 		initializeData();
@@ -28,11 +39,10 @@ public class DataSet{
 		}
 		
 		libraryTubes = new ArrayList<LibraryTube>();
-		/*for(Integer i = 10; i < 20; i++){
-			Sample sample = samples.get(i);
-			LibraryTube lt = new LibraryTube(sample);
+		for(Integer i = 10; i < 20; i++){
+			LibraryTube lt = new LibraryTube();
 			libraryTubes.add(lt);
-		}*/
+		}
 	}
 	
 	static ArrayList<Sample> createSamples(Integer number){

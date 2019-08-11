@@ -163,11 +163,11 @@ public class main {
 	/********* methods to respond to user input **************/
 	
 	private static void showAllSamples(String[] parameters){
-		for(Sample s : DataSet.samples){
+		for(Sample s : DataSet.getSamples()){
 			s.print();
 			printLineDivider();
 		}
-		System.out.println("Total number of samples: " + DataSet.samples.size());
+		System.out.println("Total number of samples: " + DataSet.getSamples().size());
 	}
 	
 	private static void createNewSample(String[] parameters){
@@ -187,20 +187,20 @@ public class main {
 	private static void showAllTubes(String[] parameters){
 		System.out.println("Sample tubes:");
 		printLineDivider();
-		for(SampleTube st : DataSet.sampleTubes){
+		for(SampleTube st : DataSet.getSampleTubes()){
 			st.print();
 			printLineDivider();
 		}
-		System.out.println("Total number of sample tubes: " + DataSet.sampleTubes.size());
+		System.out.println("Total number of sample tubes: " + DataSet.getSampleTubes().size());
 		printLineDivider();
 
 		System.out.println("Library tubes:");
 		printLineDivider();
-		for(LibraryTube lt : DataSet.libraryTubes){
+		for(LibraryTube lt : DataSet.getLibraryTubes()){
 			lt.print();
 			printLineDivider();
 		}
-		System.out.println("Total number of library tubes: " + DataSet.libraryTubes.size());
+		System.out.println("Total number of library tubes: " + DataSet.getLibraryTubes().size());
 	}
 	
 	private static void createNewSampleTube(String[] parameters){

@@ -13,14 +13,14 @@ class DataSetTest {
 	void testInitializeData() {
 		DataSet.initializeData();
 		
-		assert(!DataSet.samples.isEmpty());
-		assertEquals(50, DataSet.samples.size());
+		assert(!DataSet.getSamples().isEmpty());
+		assertEquals(50, DataSet.getSamples().size());
 		
-		assert(!DataSet.sampleTubes.isEmpty());
-		assertEquals(10, DataSet.sampleTubes.size());
+		assert(!DataSet.getSampleTubes().isEmpty());
+		assertEquals(10, DataSet.getSampleTubes().size());
 		
-		assert(DataSet.libraryTubes.isEmpty());
-		//assertEquals(0, DataSet.libraryTubes.size());
+		assert(!DataSet.getLibraryTubes().isEmpty());
+		assertEquals(10, DataSet.getLibraryTubes().size());
 	}
 	
 	@Test
@@ -63,9 +63,9 @@ class DataSetTest {
 		Response r = DataSet.createSample("Secret celebrity DNA", "Dawn French");
 		
 		assert(r.getSuccess());
-		assertEquals(51, DataSet.samples.size(), "Size of sample list should have increased by one.");
-		assertEquals("Secret celebrity DNA", DataSet.samples.get(50).getName(), "Last element in the list is the one we created; it should have the correct name.");
-		assertEquals("Dawn French", DataSet.samples.get(50).getCustomerName(), "Last element in the list is the one we created; it should have the correct customer name.");
+		assertEquals(51, DataSet.getSamples().size(), "Size of sample list should have increased by one.");
+		assertEquals("Secret celebrity DNA", DataSet.getSamples().get(50).getName(), "Last element in the list is the one we created; it should have the correct name.");
+		assertEquals("Dawn French", DataSet.getSamples().get(50).getCustomerName(), "Last element in the list is the one we created; it should have the correct customer name.");
 	}
 	
 	@Test
@@ -76,7 +76,7 @@ class DataSetTest {
 		Response r = DataSet.createSample("Secret celebrity DNA", "Dawn French");
 		
 		assert(!r.getSuccess());
-		assertEquals(51, DataSet.samples.size(), "Size of sample list should have only increased by one because the second attempt should have failed.");
+		assertEquals(51, DataSet.getSamples().size(), "Size of sample list should have only increased by one because the second attempt should have failed.");
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ class DataSetTest {
 		Response r = DataSet.createSampleTube();
 		
 		assert(r.getSuccess());
-		assertEquals(11, DataSet.sampleTubes.size(), "Size of sample tube list should have increased by one.");
+		assertEquals(11, DataSet.getSampleTubes().size(), "Size of sample tube list should have increased by one.");
 	}
 	
 	@Test
@@ -96,7 +96,7 @@ class DataSetTest {
 		Response r = DataSet.createLibraryTube();
 		
 		assert(r.getSuccess());
-		assertEquals(1, DataSet.libraryTubes.size(), "Size of library tube list should have increased by one.");
+		assertEquals(11, DataSet.getLibraryTubes().size(), "Size of library tube list should have increased by one.");
 	}
 	
 	@Test
@@ -143,7 +143,6 @@ class DataSetTest {
 	void testMoveSample() {
 		resetTestContext();
 		
-		DataSet.createLibraryTube();
 		DataSet.appendTagToSample("customer-0-sampleName-0", "CAT");
 		
 		Response r = DataSet.moveSample("NT-00001", "NT-00011");
@@ -161,7 +160,6 @@ class DataSetTest {
 	void testMoveSample_nonExistentSample() {
 		resetTestContext();
 		
-		DataSet.createLibraryTube();
 		DataSet.appendTagToSample("customer-0-sampleName-0", "CAT");
 		DataSet.moveSample("NT-00001", "NT-00011");
 		
@@ -176,7 +174,6 @@ class DataSetTest {
 	void testMoveSample_nonExistentSourceTube() {
 		resetTestContext();
 
-		DataSet.createLibraryTube();
 		DataSet.appendTagToSample("customer-0-sampleName-0", "CAT");
 		
 		Response r = DataSet.moveSample("No source tube has this barcode", "NT-00011");
@@ -189,10 +186,22 @@ class DataSetTest {
 	}
 	
 	@Test
+	void testMoveSample_notTagged() {
+		resetTestContext();
+
+		Response r = DataSet.moveSample("NT-00001", "NT-00011");
+		System.out.println(r.getMessage());
+		
+		assert(!r.getSuccess());
+		
+		Tube t2 = DataSet.findTubeByBarcode("NT-00011");
+		assertEquals(0, t2.getSamples().size());
+	}
+	
+	@Test
 	void testMoveSamples() {
 		resetTestContext();
 		
-		DataSet.createLibraryTube();
 		String[] barcodesOfSourceTubes = {"NT-00001", "NT-00002", "NT-00003", "NT-00004"};
 		DataSet.appendTagToSample("customer-0-sampleName-0", "AAA");
 		DataSet.appendTagToSample("customer-1-sampleName-1", "TTT");
