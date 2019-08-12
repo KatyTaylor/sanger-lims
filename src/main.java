@@ -148,7 +148,7 @@ public class main {
 	public static Boolean validateUserInput(String userInput) {
 		Boolean result = false;
 		
-		String expectedUserInputPattern = "\\s*\\w+\\s*(\\(\\s*(\\s*(\\s*[^\\s,()\"']+\\s*,)*\\s*[^\\s,()\"']+\\s*)?\\s*\\))?\\s*";
+		String expectedUserInputPattern = "\\s*\\w+\\s*(\\(\\s*(\\s*(\\s*[^,()\"']+\\s*,)*\\s*[^,()\"']+\\s*)?\\s*\\))?\\s*";
 		
 		Pattern pattern = Pattern.compile(expectedUserInputPattern); 
 		

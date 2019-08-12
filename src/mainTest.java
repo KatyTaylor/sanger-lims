@@ -108,6 +108,13 @@ class mainTest {
 	}
 	
 	@Test
+	void testValidateuserInput_8() {
+		String userInput = "command(a a, b)";
+		Boolean success = main.validateUserInput(userInput);		
+		assert(success);		
+	}
+	
+	@Test
 	void testValidateuserInput_negative_1() {
 		String userInput = "command(a,)";
 		Boolean success = main.validateUserInput(userInput);		
