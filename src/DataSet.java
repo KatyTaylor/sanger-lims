@@ -246,8 +246,7 @@ public class DataSet{
 		while(destinationTube.state != "Passed"){
 			
 			System.out.println("Ready to move next sample? Please press any key to continue.");
-			//don't need to assign to variable
-			String userInput = main.scanner.nextLine();
+			main.scanner.nextLine();
 			
 			Response r = protocol.moveNextSample();
 			destinationTube = protocol.getDestinationTube();
