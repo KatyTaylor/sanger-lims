@@ -15,6 +15,12 @@ The application is written in Java. It will need to be downloaded and compiled i
 9) Run java -jar LIMS_app.jar
 10) The program should start and you should be prompted for user input
 
+To run tests, I followed the below steps:
+
+1) Open project in Eclipse IDE
+2) Right-click on the src folder in the Package Explorer
+3) Click Run As > JUnit Test
+
 # Assumptions
 
 1) Barcodes are unique across all tubes, not just within sample tubes and library tubes.
