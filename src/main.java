@@ -24,11 +24,11 @@ public class main {
 		printLineDivider();
 		System.out.println("What do you want to do?");
 		System.out.println("The possible commands are shown below.");
-		System.out.println("To perform a command, type the command name and provide all its parameters, as shown."); 
+		System.out.println("To perform a command, type the command name and provide all its parameters, as show in the example below:"); 
 		System.out.println("Example: tag_sample (customer-49-sampleName-49, AAAGGTC)");
 		System.out.println("- show_samples");
 		System.out.println("- create_sample (sample name, customer name)");
-		System.out.println("- add_to_tube (sample name, destination tube barcode)");
+		System.out.println("- add_to_tube (sample unique id, destination tube barcode)");
 		System.out.println("- show_tubes");
 		System.out.println("- create_sample_tube");
 		System.out.println("- create_library_tube");
@@ -90,7 +90,6 @@ public class main {
 				showAllTubes(parameters);
 				break;
 			case "create_sample_tube":
-				if(!checkParams(2, parameters)) break;
 				createNewSampleTube(parameters);
 				break;
 			case "create_library_tube":
