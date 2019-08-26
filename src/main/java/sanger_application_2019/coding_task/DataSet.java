@@ -1,5 +1,6 @@
-import java.util.ArrayList;
+package sanger_application_2019.coding_task;
 
+import java.util.ArrayList;
 
 public class DataSet{
 	

@@ -1,14 +1,15 @@
+package sanger_application_2019.coding_task;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.ArrayList;
 
 public class main {
 
 	public static Scanner scanner = new Scanner(System.in);
 	private static Boolean exit = false;
 	
-	public static void main(String args[]) {
+	public static void Main(String args[]) {
 		
 		String userInput = askForUserInput();
 

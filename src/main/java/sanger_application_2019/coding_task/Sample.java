@@ -1,3 +1,4 @@
+package sanger_application_2019.coding_task;
 
 public class Sample {
 	

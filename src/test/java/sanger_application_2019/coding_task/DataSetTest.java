@@ -1,3 +1,5 @@
+package sanger_application_2019.coding_task;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
